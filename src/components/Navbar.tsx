@@ -9,10 +9,13 @@ interface NavbarProps {
   searchQuery:   string;
   onSearchChange:(q: string) => void;
   onAnalyze:     (url: string) => void;
+  onMenuToggle?: () => void;
+  mobileOpen?: boolean;
+  onMobileClose?: () => void;
 }
 
 export const Navbar = ({
-  onNavigate, currentPage, searchQuery, onSearchChange, onAnalyze,
+  onNavigate, currentPage, searchQuery, onSearchChange, onAnalyze, onMenuToggle,
 }: NavbarProps) => {
   const { user, profile, loading } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -24,7 +27,10 @@ export const Navbar = ({
   return (
     <nav className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-xl border-b border-outline/10 h-16 px-6 flex justify-between items-center">
       {/* Left: Logo + nav */}
-      <div className="flex items-center gap-8">
+      <div className="grow flex flex-col pt-4 pb-24">
+        <button onClick={onMenuToggle} className="lg:hidden p-2 hover:bg-surface-hover rounded-lg">
+          <Icons.Menu className="w-5 h-5 text-slate-400" />
+        </button>
         <div className="flex items-center gap-2.5 cursor-pointer group" onClick={() => onNavigate('landing')}>
           <img src="/VidMetrics_LOGO.png" alt="VidMetrics" className="w-8 h-8 object-contain group-hover:scale-105 transition-transform" />
           <span className="text-xl font-bold tracking-tighter text-primary">VidMetrics</span>
@@ -74,7 +80,7 @@ export const Navbar = ({
                 onClick={() => setMenuOpen(o => !o)}
                 className="flex items-center gap-2 p-1 rounded-full hover:bg-surface-hover transition-colors group"
               >
-                <div className="w-8 h-8 rounded-full overflow-hidden border border-outline/20 bg-surface flex-shrink-0 relative">
+                <div className="w-8 h-8 rounded-full overflow-hidden border border-outline/20 bg-surface relative">
                   {avatar
                     ? <img src={avatar} alt={displayName} className="w-full h-full object-cover" />
                     : <div className="w-full h-full flex items-center justify-center text-slate-300 font-bold text-sm">{displayName[0]?.toUpperCase()}</div>

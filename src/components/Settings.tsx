@@ -14,7 +14,7 @@ export const Settings = () => {
   const channelUrl = profile?.youtube_channel_url || '#';
 
   return (
-    <div className="flex-grow flex flex-col pt-4 pb-24">
+    <div className="grow flex flex-col pt-4 pb-24">
       <div className="flex flex-col gap-1 mb-12">
         <span className="font-mono text-[10px] uppercase tracking-widest text-primary/70">Workspace / Configuration</span>
         <h3 className="text-3xl font-extrabold tracking-tighter text-white">Settings</h3>

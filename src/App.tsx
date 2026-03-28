@@ -22,6 +22,7 @@ function AppContent() {
   const [videoCount, setVideoCount] = useState<number>(0);
   const [videos, setVideos] = useState<any[]>([]);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const prevUser = useRef(user);
   const initialLoad = useRef(true);
@@ -72,12 +73,15 @@ function AppContent() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Navbar
-        onNavigate={setPage}
-        currentPage={page}
-        searchQuery={searchQuery}
-        onSearchChange={setSearchQuery}
+      <Navbar 
+        onNavigate={setPage as any} 
+        currentPage={page} 
+        searchQuery={searchQuery} 
+        onSearchChange={setSearchQuery} 
         onAnalyze={handleAnalyze}
+        onMenuToggle={() => setMobileMenuOpen(true)}
+        mobileOpen={mobileMenuOpen}
+        onMobileClose={() => setMobileMenuOpen(false)}
       />
 
       <main className="grow flex flex-col">
@@ -87,14 +91,16 @@ function AppContent() {
           <div className="flex bg-background grow">
             <Sidebar 
               currentPage={page} 
-              onNavigate={setPage as any}
-              collapsed={sidebarCollapsed}
-              onToggleCollapse={() => setSidebarCollapsed(c => !c)}
+              onNavigate={(p) => { setPage(p as Page); setMobileMenuOpen(false); }} 
               onAnalyzeNew={handleAnalyze} 
               channelInfo={channelInfo} 
-              videoCount={videoCount} 
+              videoCount={videoCount}
+              collapsed={sidebarCollapsed}
+              onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
+              mobileOpen={mobileMenuOpen}
+              onMobileClose={() => setMobileMenuOpen(false)}
             />
-            <div className={`flex flex-col grow min-w-0 mt-16 px-6 pb-6 transition-all duration-300 ${sidebarCollapsed ? 'lg:ml-16' : 'lg:ml-64'}`}>
+            <div className={`flex flex-col grow min-w-0 mt-16 px-4 md:px-6 pb-6 transition-all duration-300 ${sidebarCollapsed ? 'lg:ml-16' : 'lg:ml-64'}`}>
               {/* Force Dashboard to always mount or at least keep it around for fetching channelInfo?
                   Actually, if we only mount Dashboard on 'dashboard', we lose channelInfo fetching.
                   Let's just render the requested page, but Dashboard can stay hidden or just re-fetch on mount?

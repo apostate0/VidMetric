@@ -6,6 +6,8 @@ interface SidebarProps {
   onNavigate: (page: 'landing' | 'dashboard' | 'compare' | 'insights' | 'reports' | 'mystats' | 'settings') => void;
   collapsed?: boolean;
   onToggleCollapse?: () => void;
+  mobileOpen?: boolean;
+  onMobileClose?: () => void;
   onAnalyzeNew?: (url: string) => void;
   channelInfo?: {
     title: string;
@@ -17,16 +19,31 @@ interface SidebarProps {
   videoCount?: number;
 }
 
-export const Sidebar = ({ currentPage, onNavigate, collapsed = false, onToggleCollapse, onAnalyzeNew, channelInfo, videoCount }: SidebarProps) => {
+export const Sidebar = ({ currentPage, onNavigate, collapsed = false, onToggleCollapse, mobileOpen = false, onMobileClose, onAnalyzeNew, channelInfo, videoCount }: SidebarProps) => {
   return (
-    <aside className={`fixed left-0 top-16 h-[calc(100vh-64px)] ${collapsed ? 'w-16' : 'w-64'} bg-surface border-r border-outline/15 hidden lg:flex flex-col py-4 gap-2 z-40 transition-all duration-300`}>
-      {/* Collapse Toggle */}
-      <button
-        onClick={onToggleCollapse}
-        className="absolute -right-3 top-6 w-6 h-6 bg-surface border border-outline/20 rounded-full flex items-center justify-center text-slate-500 hover:text-white hover:bg-surface-hover transition-colors"
-      >
-        {collapsed ? <Icons.ChevronRight className="w-3 h-3" /> : <Icons.ChevronLeft className="w-3 h-3" />}
-      </button>
+    <>
+      {/* Mobile overlay */}
+      {mobileOpen && (
+        <div className="fixed inset-0 bg-black/50 z-40 lg:hidden" onClick={onMobileClose} />
+      )}
+      <aside className={`fixed left-0 top-16 h-[calc(100vh-64px)] ${collapsed ? 'w-16' : 'w-64'} bg-surface border-r border-outline/15 flex flex-col py-4 gap-2 z-50 transition-all duration-300 ${
+        mobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+      }`}>
+        {/* Mobile close button */}
+        <button
+          onClick={onMobileClose}
+          className="absolute top-4 right-4 lg:hidden p-1 hover:bg-surface-hover rounded"
+        >
+          <Icons.Close className="w-5 h-5 text-slate-400" />
+        </button>
+
+        {/* Collapse Toggle (desktop only) */}
+        <button
+          onClick={onToggleCollapse}
+          className="absolute -right-3 top-6 w-6 h-6 bg-surface border border-outline/20 rounded-full justify-center text-slate-500 hover:text-white hover:bg-surface-hover transition-colors hidden lg:flex"
+        >
+          {collapsed ? <Icons.ChevronRight className="w-3 h-3" /> : <Icons.ChevronLeft className="w-3 h-3" />}
+        </button>
 
       <div className="px-6 py-4">
         {!collapsed && (
@@ -133,6 +150,7 @@ export const Sidebar = ({ currentPage, onNavigate, collapsed = false, onToggleCo
         </button>
       </div>
     </aside>
+    </>
   );
 };
 

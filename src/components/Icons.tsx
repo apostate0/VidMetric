@@ -17,7 +17,9 @@ import {
   ChevronRight,
   TrendingUp,
   ExternalLink,
-  AlertTriangle
+  AlertTriangle,
+  Menu,
+  X
 } from 'lucide-react';
 
 export const Icons = {
@@ -39,5 +41,7 @@ export const Icons = {
   ChevronRight,
   TrendingUp,
   ExternalLink,
-  AlertTriangle
+  AlertTriangle,
+  Menu,
+  Close: X,
 };
