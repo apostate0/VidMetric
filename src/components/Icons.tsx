@@ -1,0 +1,43 @@
+import { 
+  LayoutDashboard, 
+  Video, 
+  BarChart3, 
+  Search, 
+  Users, 
+  Bell, 
+  Settings, 
+  LogOut, 
+  HelpCircle, 
+  Download, 
+  Filter, 
+  ArrowRight, 
+  Link as LinkIcon,
+  CheckCircle2,
+  ChevronLeft,
+  ChevronRight,
+  TrendingUp,
+  ExternalLink,
+  AlertTriangle
+} from 'lucide-react';
+
+export const Icons = {
+  Dashboard: LayoutDashboard,
+  Video,
+  Stats: BarChart3,
+  Search,
+  Audience: Users,
+  Bell,
+  Settings,
+  Logout: LogOut,
+  Help: HelpCircle,
+  Download,
+  Filter,
+  ArrowRight,
+  Link: LinkIcon,
+  Verified: CheckCircle2,
+  ChevronLeft,
+  ChevronRight,
+  TrendingUp,
+  ExternalLink,
+  AlertTriangle
+};
